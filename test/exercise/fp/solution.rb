@@ -4,12 +4,16 @@ module Exercise
       # Обратиться к параметрам фильма можно так:
       # film["name"], film["rating_kinopoisk"], film["rating_imdb"],
       # film["genres"], film["year"], film["access_level"], film["country"]
+      def filter(film)
+        !film['rating_kinopoisk'].nil? && \
+          film['rating_kinopoisk'].to_f.positive? && \
+          !film['country'].nil? && \
+          film['country'].to_s.split(',').count >= 2
+      end
+
       def rating(array)
         filtered_films = array.map do |film|
-          if !film['rating_kinopoisk'].nil? && film['rating_kinopoisk'].to_f.positive? && \
-             !film['country'].nil? && film['country'].to_s.split(',').count >= 2
-            film
-          end
+          film if filter(film)
         end
         rating_array = filtered_films.compact.map { |film| film['rating_kinopoisk'].to_f }
         rating_array.reduce(:+) / rating_array.size
