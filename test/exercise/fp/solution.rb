@@ -24,10 +24,7 @@ module Exercise
           acc << film['name'].to_s if film['rating_kinopoisk'].to_f >= threshold
           acc
         end
-        names_string.chars.reduce(0) do |num, char|
-          num += 1 if char == 'и'
-          num
-        end
+        names_string.count('и')
       end
     end
   end
