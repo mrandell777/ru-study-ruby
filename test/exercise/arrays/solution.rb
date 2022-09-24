@@ -13,7 +13,7 @@ module Exercise
       end
 
       def search(array, query)
-        return -1 if array.empty? || (array.last < query)
+        return -1 if array.empty? || query < array.first || query > array.last
 
         mid = array.count / 2
         if query == array[mid]
