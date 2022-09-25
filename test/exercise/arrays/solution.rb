@@ -16,13 +16,9 @@ module Exercise
         return -1 if array.empty? || query < array.first || query > array.last
 
         mid = array.count / 2
-        if query == array[mid]
-          mid
-        elsif query < array[mid]
-          search(array[0..mid - 1], query)
-        elsif query > array[mid]
-          search(array[mid + 1..], query) + mid + 1
-        end
+        return mid if query == array[mid]
+
+        query < array[mid] ? search(array[0..mid - 1], query) : search(array[mid + 1..], query) + mid + 1
       end
     end
   end
