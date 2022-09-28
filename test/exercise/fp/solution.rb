@@ -4,12 +4,27 @@ module Exercise
       # Обратиться к параметрам фильма можно так:
       # film["name"], film["rating_kinopoisk"], film["rating_imdb"],
       # film["genres"], film["year"], film["access_level"], film["country"]
-      def rating(_array)
-        0
+      def valid?(film)
+        !film['rating_kinopoisk'].nil? && \
+          film['rating_kinopoisk'].to_f.positive? && \
+          !film['country'].nil? && \
+          film['country'].to_s.split(',').count >= 2
       end
 
-      def chars_count(_films, _threshold)
-        0
+      def rating(array)
+        filtered_films = array.map do |film|
+          film if valid?(film)
+        end
+        rating_array = filtered_films.compact.map { |film| film['rating_kinopoisk'].to_f }
+        rating_array.reduce(:+) / rating_array.size
+      end
+
+      def chars_count(films, threshold)
+        names_string = films.reduce('') do |acc, film|
+          acc << film['name'].to_s if film['rating_kinopoisk'].to_f >= threshold
+          acc
+        end
+        names_string.count('и')
       end
     end
   end
